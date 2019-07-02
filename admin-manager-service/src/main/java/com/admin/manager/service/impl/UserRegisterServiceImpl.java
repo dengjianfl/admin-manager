@@ -42,7 +42,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		
 		ResultData result = checkData(user.getUsername(),user.getPhone());
 		if (!(boolean)result.getData()) {
-			return ResultData.build(400, "账号已经注册");
+			return ResultData.build(false, "账号已经注册");
 		}
 		user.setCreated(new Date());
 		user.setUpdated(user.getCreated());
@@ -51,7 +51,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		user.setPassword(md5password);
 		
 		userMapper.insertSelective(user);
-		return ResultData.build(200, "注册成功");
+		return ResultData.build(true, "注册成功");
 	}
 
 }
