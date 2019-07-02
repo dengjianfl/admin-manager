@@ -4,4 +4,5 @@ import com.admin.common.pojo.ResultData;
 
 public interface UserLoginService {
 	public ResultData login(String username, String password);
+	public Boolean isTokenExist (String token);
 }
