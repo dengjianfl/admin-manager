@@ -3,6 +3,7 @@ package com.admin.manager.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,39 @@ public class UserLoginServiceImpl implements UserLoginService {
 		
 	}
 	
+	// 根据token获取当前登录人信息
+	@Override
+	public ResultData getUserByToken(String token) {
+		//1.注入jedisclient
+		//2.调用根据token查询 用户信息（JSON）的方法   get方法
+		String strjson = client.get(USER_INFO+":"+token);
+		//5.如果查询到  需要返回200  包含用户的信息  用户信息转成对象
+		if(StringUtils.isNotBlank(strjson)){
+			User user = JsonUtils.jsonToPojo(strjson, User.class);
+			//重新设置过期时间
+			//client.expire(USER_INFO+":"+token, EXPIRE_TIME);
+			return ResultData.build(true, null, user);
+		} else {
+			return ResultData.build(false,"获取信息失败。");
+		}
+		
+		
+	}
+	
 	// 退出登录
-
+	@Override
+	public ResultData logOut(String token) {
+		
+		String strjson = client.get(USER_INFO+":"+token);
+		if(StringUtils.isNotBlank(strjson)){
+			// client.expire(strjson, 0);
+			client.del(USER_INFO+":"+token);
+			return ResultData.build(true, "退出成功!");
+		} else{
+			return ResultData.build(false, "退出失败!");
+		}
+	}
+	
+	
+	
 }
