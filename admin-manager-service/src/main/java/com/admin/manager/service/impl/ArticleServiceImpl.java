@@ -66,4 +66,10 @@ public class ArticleServiceImpl implements ArticleService {
 		return ResultData.build(true, "成功", content);
 	}
 
+	@Override
+	public ResultData deleteAnArticle(Long id) {
+		contentMapper.deleteByPrimaryKey(id);
+		return ResultData.build(true, "删除成功");
+	}
+
 }
