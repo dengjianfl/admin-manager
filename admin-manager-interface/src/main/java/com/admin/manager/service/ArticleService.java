@@ -23,5 +23,17 @@ public interface ArticleService {
 	 */
 	public ResultData getAllArticle();
 	
+	/**
+	 * 根据文章id获取一篇文章
+	 * @param id
+	 * @return
+	 */
 	public ResultData getAnArticle(Long id);
+	
+	/**
+	 * 根据文章id删除一篇文章
+	 * @param id
+	 * @return
+	 */
+	public ResultData deleteAnArticle(Long id);
 }
